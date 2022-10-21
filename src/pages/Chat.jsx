@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 // import ReactMarkdown from 'react-markdown';
 import { useUserInfoContext } from "../components/userInfo.jsx";
+import { useParams } from "react-router-dom";
 
 const MyBalloon = ({ children }) => {
   return (
@@ -30,7 +31,7 @@ const OtherBalloon = (props) => {
     <div className="other-chat-message">
       <div className="flex items-end">
         <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-          <span class="text-xs text-gray-300 inline-block leading-none">
+          <span className="text-xs text-gray-300 inline-block leading-none">
             {props.name}
           </span>
           <div>
@@ -54,6 +55,10 @@ const Chat = (props) => {
   const inputRef = useRef();
   const { userInfo } = useUserInfoContext();
   const isFetching = useRef(false);
+  const DBURL =
+    "https://script.google.com/macros/s/AKfycbwRRoY8vWXsuD9sotNHqw-7g8kJDQguVMIwi3s7Hr9KhBTuTixScaM-14J1vTLJOJZ8/exec";
+  const url = useParams();
+  console.log(url.id);
 
   useEffect(() => {
     console.log("reRendered");
@@ -62,9 +67,7 @@ const Chat = (props) => {
   const getChat = () => {
     if (!isFetching.current) {
       isFetching.current = true;
-      fetch(
-        "https://script.googleusercontent.com/a/macros/f-sapporo.ed.jp/echo?user_content_key=BH8Kv2-HKQYYjlY7IqN45V38lEL1SzoVswu9259GzCNqdZheAUGElDH3UAFpbK1dMbrZjzC6hxqRxGzjnLYTBDnLNLb8gvf3OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMi80zadyHLKD69xnUh-IhrsfB63eL3TaQ1djiqESLJYkXNcZoe1zwbJVFMimvbwDGwkl1xMkIUh9GcDqYzi69rNwOzl2svdDzwiMeXCzRPHnYlXVu6ZSvRTMBkFmQ3nSn6aEFGJJrzo5cy6pr-Oj0FQ&lib=McovRLwPv54_SYyI5iluMo5-ZE1Y-KuHf"
-      )
+      fetch(DBURL)
         .then((response) => response.json())
         .then((json) => {
           json = JSON.parse(JSON.stringify(json));
@@ -100,7 +103,7 @@ const Chat = (props) => {
     setMessage([...messages, <MyBalloon children={inputRef.current.value} />]);
     isFetching.current = true;
     fetch(
-      `https://script.google.com/macros/s/AKfycbyGRApn5hMMSRMsCX3rmuQHv9EQ8QTZE9Sh7uFnuCXxhcGqgEA5v2ChsjDzqFeNXCtMKQ/exec?type=post&body=${inputRef.current.value}&displayName=${userInfo.current.displayName}&userID=${userInfo.current.userID}&bodyType=text`
+      `${DBURL}?type=post&body=${inputRef.current.value}&displayName=${userInfo.current.displayName}&userID=${userInfo.current.userID}&bodyType=text`
     )
       .then((response) => response.json())
       .then((json) => {
@@ -139,7 +142,7 @@ const Chat = (props) => {
           </div> */}
           <div className="flex flex-col leading-tight mx-2">
             <div className="text-2xl mt-1 flex items-center">
-              <span className="text-gray-200 mr-3">図書専門局会</span>
+              <span className="text-gray-200 mr-3">バカども</span>
             </div>
             <span className="text-lg text-gray-400">
               Chat data may be lost or suddenly unavailable due to maintenance

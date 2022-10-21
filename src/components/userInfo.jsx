@@ -30,6 +30,7 @@ export const UserInfoProvider = ({ children }) => {
           isLogin: false,
           displayName: "",
           userID: makeStrID(20),
+          chatRoom: [{ displayName: "", url: "" }],
         }
   );
   console.log(
