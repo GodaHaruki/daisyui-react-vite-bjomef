@@ -39,3 +39,24 @@ export const AsyncCookieProvider = ({ children }) => {
   };
   return <Cookie.Provider value={value}>{children}</Cookie.Provider>;
 };
+
+// const IndexDB = createContext();
+
+// const IndexDBProvider = ({ children }) => {
+//   class DB {
+//     constructor(name, version) {
+//       // this.openReq = indexedDB.open(name, version);
+//       // openReq.onsuccess = (e) =>
+//     }
+//     #openReq(){
+//       let req = indexedDB.open("test", 1);
+//       req.onupgradeneeded = () => {
+//         const db = this.result;
+
+//       }
+//     }
+//     push()
+//   }
+//   const value = {};
+//   return <IndexDB.Provider value={value}>{children}</IndexDB.Provider>;
+// };
