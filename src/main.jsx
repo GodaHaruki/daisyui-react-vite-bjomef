@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import {
   Routes,
   Route,
-  HashRouter,
+  // HashRouter,
   BrowserRouter,
   Navigate,
 } from "react-router-dom";

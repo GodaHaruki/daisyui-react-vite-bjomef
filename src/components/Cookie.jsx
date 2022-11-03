@@ -5,38 +5,38 @@ const Cookie = createContext();
 export const useAsyncCookie = () => useContext(Cookie);
 
 export const AsyncCookieProvider = ({ children }) => {
-  const asyncSet = async (key, value) => {
-    document.cookie(`${key}=${encodeURIComponent(value)}`);
-  };
+  class cookie {
+    #strCookieObjCookie(strCookie) {
+      this.#update();
 
-  const set = (key, value) => {
-    document.cookie(`${key}=${encodeURIComponent(value)}`);
-  };
+      let obj = {};
+      strCookie
+        .split(";")
+        .map((e) => e.split("="))
+        .forEach((e) => (obj[e[0]] = e[1]));
+      return obj;
+    }
 
-  const get = () => {
-    let obj = {};
-    document.cookie
-      .split(";")
-      .map((e) => e.split("="))
-      .forEach((e) => (obj.current[e[0]] = decodeURIComponent(e[1])));
-    return obj;
-  };
+    #construct() {
+      this.rawValue = document.cookie;
+      this.dicValue = this.#strCookieObjCookie(this.rawValue);
+    }
 
-  const asyncGet = async () => {
-    let obj = {};
-    document.cookie
-      .split(";")
-      .map((e) => e.split("="))
-      .forEach((e) => (obj.current[e[0]] = decodeURIComponent(e[1])));
-    return obj;
-  };
+    constructor() {
+      this.#construct;
+    }
 
-  const value = {
-    asyncSet,
-    asyncGet,
-    set,
-    get,
-  };
+    #update() {
+      this.#construct;
+    }
+
+    get(key) {
+      this.#update();
+      return dicValue[key];
+    }
+  }
+
+  const value = { cookie };
   return <Cookie.Provider value={value}>{children}</Cookie.Provider>;
 };
 

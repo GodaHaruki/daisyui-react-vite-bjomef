@@ -2,7 +2,7 @@ import {useAsyncCookie} from './Cookie.jsx'
 import {Navigate} from 'react-router-dom'
 
 const Join = () => {
-  const roomInfo = useAsyncCookie()
+  const { roomInfo } = useAsyncCookie()
   const roomID = "URLParameter"
   
   const jsx = roomID != null ? (
