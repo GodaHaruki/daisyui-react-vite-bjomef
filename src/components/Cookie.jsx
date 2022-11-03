@@ -6,32 +6,43 @@ export const useAsyncCookie = () => useContext(Cookie);
 
 export const AsyncCookieProvider = ({ children }) => {
   class cookie {
-    #strCookieObjCookie(strCookie) {
-      this.#update();
+    #strCookie2ObjCookie(strCookie) {
+      this.update();
 
       let obj = {};
       strCookie
         .split(";")
         .map((e) => e.split("="))
-        .forEach((e) => (obj[e[0]] = e[1]));
+        .forEach((e) => (obj[e[0]] = JSON.parse(e[1])));
       return obj;
     }
 
-    #construct() {
+    #construct(defaultValue, time) {
+      if (document.cookie == null) {
+        document.cookie = defaultValue;
+      }
       this.rawValue = document.cookie;
-      this.dicValue = this.#strCookieObjCookie(this.rawValue);
+      this.dicValue = this.#strCookie2ObjCookie(this.rawValue);
     }
 
-    constructor() {
-      this.#construct;
+    get dicCookie() {
+      return this.dicValue;
     }
 
-    #update() {
+    setCookie(name, json) {
+      document.cookie = `${name}=${json}`;
+    }
+
+    constructor(time) {
+      this.#construct(time);
+    }
+
+    update() {
       this.#construct;
     }
 
     get(key) {
-      this.#update();
+      this.update();
       return dicValue[key];
     }
   }

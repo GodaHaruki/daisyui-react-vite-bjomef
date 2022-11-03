@@ -1,26 +1,47 @@
-import {useAsyncCookie} from './Cookie.jsx'
-import {Navigate} from 'react-router-dom'
+import { useAsyncCookie } from "./Cookie.jsx";
+import { Navigate } from "react-router-dom";
 
 const Join = () => {
-  const { roomInfo } = useAsyncCookie()
-  const roomID = "URLParameter"
-  
-  const jsx = roomID != null ? (
+  const { cookie } = useAsyncCookie();
+  const roomID = "URLParameter";
+
+  return roomID == null ? (
+    <Navigate replace to="/" />
+  ) : (
     <div>
-        <table>
+      <input
+        type="text"
+        placeholder="Type room code here"
+        className="input input-bordered w-full max-w-xs"
+      />
+      <div className="overflow-x-auto">
+        <table className="table w-full">
           <thead>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Digit</th>
-            <th>Times</th>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Digit</th>
+              <th>Times</th>
+            </tr>
           </thead>
+          <tbody>
+            {cookie.dicCookie.rooms.map(
+              (
+                e // unimplimengted!
+              ) => (
+                <tr>
+                  <th>{e.name}</th>
+                  <th>{e.desc}</th>
+                  <th>{e.digit}</th>
+                  <th>{e.times}</th>
+                </tr>
+              )
+            )}
+          </tbody>
         </table>
       </div>
-  )
-            : (
-      <Navigate replace to="/" />          
-            )
-  return jsx
+    </div>
+  );
 };
 
 export default Join;
