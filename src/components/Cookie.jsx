@@ -1,4 +1,4 @@
-import { useContext, createContext } from "react";
+import { useContext, createContext, useRef, useState } from "react";
 
 const Cookie = createContext();
 
@@ -21,8 +21,10 @@ export const AsyncCookieProvider = ({ children }) => {
       if (document.cookie == null) {
         document.cookie = defaultValue;
       }
-      this.rawValue = document.cookie;
-      this.dicValue = this.#strCookie2ObjCookie(this.rawValue);
+      this.rawValue = useRef(document.cookie);
+      this.dicValue = useRef(this.#strCookie2ObjCookie(this.rawValue.current));
+      const currentDicValue = this.dicValue
+      this.state_dicValue = useState(this.dicValue)
     }
 
     get dicCookie() {
@@ -31,6 +33,7 @@ export const AsyncCookieProvider = ({ children }) => {
 
     setCookie(name, json) {
       document.cookie = `${name}=${json}`;
+      this.update();
     }
 
     constructor(time) {
@@ -42,7 +45,6 @@ export const AsyncCookieProvider = ({ children }) => {
     }
 
     get(key) {
-      this.update();
       return dicValue[key];
     }
   }
