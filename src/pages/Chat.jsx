@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from "react";
 // import ReactMarkdown from 'react-markdown';
-import { useUserInfoContext } from '../components/userInfo.jsx';
+import { useUserInfoContext } from "../components/userInfo.jsx";
 
 const MyBalloon = ({ children }) => {
   return (
@@ -30,7 +30,9 @@ const OtherBalloon = (props) => {
     <div className="other-chat-message">
       <div className="flex items-end">
         <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-        <span class="text-xs text-gray-300 inline-block leading-none">{props.name}</span>
+          <span class="text-xs text-gray-300 inline-block leading-none">
+            {props.name}
+          </span>
           <div>
             <span className="px-4 py-2 rounded-lg inline-block bg-gray-300 text-gray-600">
               {props.children}
@@ -51,42 +53,46 @@ const Chat = (props) => {
   const [messages, setMessage] = useState([]);
   const inputRef = useRef();
   const { userInfo } = useUserInfoContext();
-  const isFetching = useRef(false)
+  const isFetching = useRef(false);
 
   useEffect(() => {
-    console.log('reRendered');
+    console.log("reRendered");
   });
 
   const getChat = () => {
     if (!isFetching.current) {
       isFetching.current = true;
       fetch(
-        'https://script.googleusercontent.com/a/macros/f-sapporo.ed.jp/echo?user_content_key=BH8Kv2-HKQYYjlY7IqN45V38lEL1SzoVswu9259GzCNqdZheAUGElDH3UAFpbK1dMbrZjzC6hxqRxGzjnLYTBDnLNLb8gvf3OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMi80zadyHLKD69xnUh-IhrsfB63eL3TaQ1djiqESLJYkXNcZoe1zwbJVFMimvbwDGwkl1xMkIUh9GcDqYzi69rNwOzl2svdDzwiMeXCzRPHnYlXVu6ZSvRTMBkFmQ3nSn6aEFGJJrzo5cy6pr-Oj0FQ&lib=McovRLwPv54_SYyI5iluMo5-ZE1Y-KuHf'
+        "https://script.googleusercontent.com/a/macros/f-sapporo.ed.jp/echo?user_content_key=BH8Kv2-HKQYYjlY7IqN45V38lEL1SzoVswu9259GzCNqdZheAUGElDH3UAFpbK1dMbrZjzC6hxqRxGzjnLYTBDnLNLb8gvf3OJmA1Yb3SEsKFZqtv3DaNYcMrmhZHmUMi80zadyHLKD69xnUh-IhrsfB63eL3TaQ1djiqESLJYkXNcZoe1zwbJVFMimvbwDGwkl1xMkIUh9GcDqYzi69rNwOzl2svdDzwiMeXCzRPHnYlXVu6ZSvRTMBkFmQ3nSn6aEFGJJrzo5cy6pr-Oj0FQ&lib=McovRLwPv54_SYyI5iluMo5-ZE1Y-KuHf"
       )
         .then((response) => response.json())
         .then((json) => {
           json = JSON.parse(JSON.stringify(json));
           console.log(json);
           setMessage(
-            messages == json.datas.data
-              ? console.log('there are not post')
-              : json['datas']['data'].map((elm, i) => {
-                const isMine = userInfo.current.userID == elm[2];
-                return isMine ? (
-                  <MyBalloon key={elm[0]} children={elm[5]} />
-                ) : (
-                  <OtherBalloon key={elm[0]} name={elm[3]} children={elm[5]} />
-                );
-              })
+            messages.length >= json.datas.data.length
+              ? console.log("there are not post")
+              : json["datas"]["data"].map((elm) => {
+                  const isMine = userInfo.current.userID == elm[2];
+                  return isMine ? (
+                    <MyBalloon key={elm[0]} children={elm[5]} />
+                  ) : (
+                    <OtherBalloon
+                      key={elm[0]}
+                      name={elm[3]}
+                      children={elm[5]}
+                    />
+                  );
+                })
           );
           isFetching.current = false;
-        })
-    };
+        });
+    }
   };
 
   useEffect(() => {
     const poling = setInterval(() => getChat(), 3000); // props.interval : useRef()
-    return () => clearInterval(poling)
+    return () => clearInterval(poling);
   }, []);
 
   const handleClick = () => {
@@ -98,9 +104,9 @@ const Chat = (props) => {
     )
       .then((response) => response.json())
       .then((json) => {
-        console.log("Post to Set")
+        console.log("Post to Set");
         setMessage(
-          json['datas']['data'].map((elm) => {
+          json["datas"]["data"].map((elm) => {
             const isMine = userInfo.current.userID == elm[2];
             return isMine ? (
               <MyBalloon key={elm[0]} name={elm[3]} children={elm[5]} />
@@ -112,7 +118,7 @@ const Chat = (props) => {
         isFetching.current = false;
       });
 
-    inputRef.current.value = '';
+    inputRef.current.value = "";
   };
 
   return (
@@ -133,9 +139,11 @@ const Chat = (props) => {
           </div> */}
           <div className="flex flex-col leading-tight mx-2">
             <div className="text-2xl mt-1 flex items-center">
-              <span className="text-gray-200 mr-3">Alpha Server</span>
+              <span className="text-gray-200 mr-3">図書専門局会</span>
             </div>
-            <span className="text-lg text-gray-400">Chat data may be lost or suddenly unavailable due to maintenance</span>
+            <span className="text-lg text-gray-400">
+              Chat data may be lost or suddenly unavailable due to maintenance
+            </span>
           </div>
         </div>
         <div className="flex items-center space-x-2">

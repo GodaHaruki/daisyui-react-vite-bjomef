@@ -1,15 +1,15 @@
-import React, { useContext, createContext, useRef, useEffect } from 'react';
-import { useLocalStorage } from './localStorage.jsx';
+import React, { useContext, createContext, useRef, useEffect } from "react";
+import { useLocalStorage } from "./localStorage.jsx";
 
 const UserInfo = createContext();
 
 export const useUserInfoContext = () => useContext(UserInfo);
 
 const makeStrID = (digits = 8) => {
-  const c = 'abcdefghijklmnopqrstuvwxyz0123456789';
-  let g = '';
+  const c = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let g = "";
   for (let i = 0; i < digits; i++) {
-    g += c[Math.floor(Math.random() * c)];
+    g += c[Math.floor(Math.random() * c.length)];
   }
   return g;
 };
@@ -20,7 +20,7 @@ export const UserInfoProvider = ({ children }) => {
   useEffect(() => (isFirstRender.current = true));
 
   const { getLocalStorage, setLocalStorage } = useLocalStorage();
-  const userInfoKey = 'daisyuiChatApp';
+  const userInfoKey = "daisyuiChatApp";
   const tempLocalUserInfo = getLocalStorage(userInfoKey);
   console.log(tempLocalUserInfo);
   let userInfo = useRef(
@@ -28,7 +28,7 @@ export const UserInfoProvider = ({ children }) => {
       ? JSON.parse(tempLocalUserInfo)
       : {
           isLogin: false,
-          displayName: '',
+          displayName: "",
           userID: makeStrID(20),
         }
   );
@@ -40,12 +40,12 @@ export const UserInfoProvider = ({ children }) => {
   useEffect(() => {
     console.log(`isFirstRender: ${isFirstRender.current}`);
     if (isFirstRender.current) {
-      console.log('First Render');
+      console.log("First Render");
       isFirstRender.current = false;
     } else {
-      console.log('LocalStorage Setted');
+      console.log("LocalStorage Setted");
       setLocalStorage(userInfoKey, userInfo.current);
-      console.log('Changed');
+      console.log("Changed");
     }
   }, [userInfo]);
 
