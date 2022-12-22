@@ -1,1 +1,5 @@
-# Line on chromebook
+const padDefaultTime = 10000;
+
+const padRefTime = useRef(padDefaultTime);
+
+
